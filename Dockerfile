@@ -1,7 +1,7 @@
 FROM ubuntu:bionic
 
 # add our user and group first to make sure their IDs get assigned consistently, regardless of whatever dependencies get added
-RUN groupadd -r -g 82 mongodb && useradd -u 82 -r -G mongodb mongodb
+RUN groupadd -r -g 82 mongodb && useradd -u 82 -r -g mongodb mongodb
 
 RUN set -eux; \
 	apt-get update; \
@@ -9,6 +9,7 @@ RUN set -eux; \
 		ca-certificates \
 		jq \
 		numactl \
+		curl \
 	; \
 	if ! command -v ps > /dev/null; then \
 		apt-get install -y --no-install-recommends procps; \
@@ -91,14 +92,16 @@ RUN set -x \
 		${MONGO_PACKAGE}-tools=$MONGO_VERSION \
 	&& rm -rf /var/lib/apt/lists/* \
 	&& rm -rf /var/lib/mongodb \
-	&& mv /etc/mongod.conf /etc/mongod.conf.orig
+	&& mv /etc/mongod.conf /etc/mongod.conf-dist \
+	&& mkdir /data && chown -R 82:82 /data \
+	&& curl -fSsL -o /etc/mongod.conf https://c29c822625b12b293788b44e614ec4fc4c4c85b0@raw.githubusercontent.com/nixroxursox/mongodb/master/etc/mongod.conf
 
 RUN mkdir -p /data/db /data/configdb \
 	&& chown -R mongodb:mongodb /data/db /data/configdb
-#VOLUME /data/db /data/configdb
+VOLUME /data/db /data/configdb
 
 COPY docker-entrypoint.sh /usr/local/bin/
 ENTRYPOINT ["docker-entrypoint.sh"]
 
 EXPOSE 27017
-CMD ["mongod"]
+CMD ["mongod", "--config", "/etc/mongod.conf;"]
