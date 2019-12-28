@@ -353,7 +353,7 @@ if [ "$originalArgOne" = 'mongod' ]; then
 		fi
 		if [ -z "$haveBindIp" ]; then
 			# so if no "--bind_ip" is specified, let's add "--bind_ip_all"
-			set -- "$@" --bind_ip_all --unixSocketPrefix /var/run --filePermissions 0664
+			set -- "$@" --bind_ip_all 
 		fi
 	fi
 
