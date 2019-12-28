@@ -14,7 +14,7 @@ RUN set -eux; \
 	if ! command -v ps > /dev/null; then \
 		apt-get install -y --no-install-recommends procps; \
 	fi; \
-	rm -rf /var/lib/apt/lists/*
+cccccccccccccccccccccccccccccccccccccccccccccc
 
 # grab gosu for easy step-down from root (https://github.com/tianon/gosu/releases)
 ENV GOSU_VERSION 1.11
@@ -105,4 +105,4 @@ ENTRYPOINT ["docker-entrypoint.sh"]
 
 EXPOSE 27017
 #CMD ["mongod", "--config", "/etc/mongod.conf"]
-CMD ["mongod"]
+CMD ["mongod, "-f", "/etc/mongod.conf"]
