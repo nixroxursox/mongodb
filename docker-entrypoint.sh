@@ -282,7 +282,7 @@ if [ "$originalArgOne" = 'mongod' ]; then
 		rm -f "$pidfile"
 		_mongod_hack_ensure_arg_val --pidfilepath "$pidfile" "${mongodHackedArgs[@]}"
 
-		"${mongodHackedArgs[@]}" --fork
+		"${mongodHackedArgs[@]}" --fork --unixSocketPrefix /var/run --filePermissions 0664
 
 		mongo=( mongo --host 127.0.0.1 --port 27017 --quiet )
 
