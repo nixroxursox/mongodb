@@ -282,7 +282,7 @@ if [ "$originalArgOne" = 'mongod' ]; then
 		rm -f "$pidfile"
 		_mongod_hack_ensure_arg_val --pidfilepath "$pidfile" "${mongodHackedArgs[@]}"
 
-		"${mongodHackedArgs[@]}" --fork 
+		"${mongodHackedArgs[@]}" --fork
 
 		mongo=( mongo --host 127.0.0.1 --port 27017 --quiet )
 
@@ -324,6 +324,7 @@ if [ "$originalArgOne" = 'mongod' ]; then
 		fi
 
 		export MONGO_INITDB_DATABASE="${MONGO_INITDB_DATABASE:-test}"
+		export MONGO_INITDB_SOCKET=/var/run/mongodb-27017.sock
 
 		echo
 		for f in /docker-entrypoint-initdb.d/*; do
@@ -336,7 +337,7 @@ if [ "$originalArgOne" = 'mongod' ]; then
 		done
 
 		"${mongodHackedArgs[@]}" --shutdown
-		rm -f "$pidfile"
+		rm -f "$pidfile" "${MONGO_INITDB_SOCKET}"
 
 		echo
 		echo 'MongoDB init process complete; ready for start up.'
@@ -353,13 +354,13 @@ if [ "$originalArgOne" = 'mongod' ]; then
 		fi
 		if [ -z "$haveBindIp" ]; then
 			# so if no "--bind_ip" is specified, let's add "--bind_ip_all"
-			set -- "$@" --bind_ip_all 
+			set -- "$@" --bind_ip_all
 		fi
 	fi
 
 	unset "${!MONGO_INITDB_@}"
 fi
-
+chown -R 82:82 /var/run
 rm -f "$jsonConfigFile" "$tempConfigFile"
 
 exec "$@"
