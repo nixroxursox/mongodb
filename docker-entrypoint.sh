@@ -282,7 +282,7 @@ if [ "$originalArgOne" = 'mongod' ]; then
 		rm -f "$pidfile"
 		_mongod_hack_ensure_arg_val --pidfilepath "$pidfile" "${mongodHackedArgs[@]}"
 
-		"${mongodHackedArgs[@]}" --fork --unixSocketPrefix /var/run --filePermissions 0664
+		"${mongodHackedArgs[@]}" --fork 
 
 		mongo=( mongo --host 127.0.0.1 --port 27017 --quiet )
 
@@ -353,7 +353,7 @@ if [ "$originalArgOne" = 'mongod' ]; then
 		fi
 		if [ -z "$haveBindIp" ]; then
 			# so if no "--bind_ip" is specified, let's add "--bind_ip_all"
-			set -- "$@" --bind_ip_all
+			set -- "$@" --bind_ip_all --unixSocketPrefix /var/run --filePermissions 0664
 		fi
 	fi
 
