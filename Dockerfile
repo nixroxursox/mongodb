@@ -1,4 +1,4 @@
-FROM ubuntu:bionic
+	FROM ubuntu:bionic
 
 # add our user and group first to make sure their IDs get assigned consistently, regardless of whatever dependencies get added
 RUN groupadd -r -g 82 mongodb && useradd -u 82 -r -g mongodb mongodb
@@ -14,7 +14,6 @@ RUN set -eux; \
 	if ! command -v ps > /dev/null; then \
 		apt-get install -y --no-install-recommends procps; \
 	fi; \
-cccccccccccccccccccccccccccccccccccccccccccccc
 
 # grab gosu for easy step-down from root (https://github.com/tianon/gosu/releases)
 ENV GOSU_VERSION 1.11
@@ -104,5 +103,5 @@ COPY docker-entrypoint.sh /usr/local/bin/
 ENTRYPOINT ["docker-entrypoint.sh"]
 
 EXPOSE 27017
-#CMD ["mongod", "--config", "/etc/mongod.conf"]
-CMD ["mongod, "-f", "/etc/mongod.conf"]
+CMD ["mongod", "--config", "/etc/mongod.conf"]
+#CMD ["mongod"]
