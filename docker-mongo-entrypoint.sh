@@ -360,6 +360,6 @@ if [ "$originalArgOne" = 'mongod' ]; then
 
 	unset "${!MONGO_INITDB_@}"
 fi
-rm -f "$jsonConfigFile" "$tempConfigFile"
+rm -f "$jsonConfigFile" #"$tempConfigFile"
 
 exec "$@"
