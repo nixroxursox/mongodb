@@ -101,4 +101,4 @@ ENTRYPOINT ["docker-entrypoint.sh"]
 
 EXPOSE 27017
 #CMD ["mongod", "--config", "/etc/mongod.conf"]
-CMD ["mongod"]
+CMD ["mongod", "--unixSocketPrefix", "/var/run", "--filePermissions", "0664"]
