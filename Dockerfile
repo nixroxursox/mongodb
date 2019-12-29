@@ -97,8 +97,8 @@ RUN mkdir -p /data/db /data/configdb \
 VOLUME /data/db /data/configdb
 
 COPY docker-entrypoint.sh /usr/local/bin/
-ENTRYPOINT ["docker-entrypoint.sh"]
+ENTRYPOINT ["docker-entrypoint.sh","--user", "mongodb" ]
 
 EXPOSE 27017
-CMD ["mongod", "--config", "/etc/mongod.conf"]
-#CMD ["mongod"]
+#CMD ["mongod", "--config", "/etc/mongod.conf"]
+CMD ["mongod"]
