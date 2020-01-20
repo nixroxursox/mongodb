@@ -324,7 +324,6 @@ if [ "$originalArgOne" = 'mongod' ]; then
 		fi
 
 		export MONGO_INITDB_DATABASE="${MONGO_INITDB_DATABASE:-test}"
-		export MONGO_INITDB_SOCKET=/var/run/mongodb-27017.sock
 
 		echo
 		for f in /docker-entrypoint-initdb.d/*; do
@@ -337,7 +336,7 @@ if [ "$originalArgOne" = 'mongod' ]; then
 		done
 
 		"${mongodHackedArgs[@]}" --shutdown
-		rm -f "$pidfile" "${MONGO_INITDB_SOCKET}"
+		rm -f "$pidfile"
 
 		echo
 		echo 'MongoDB init process complete; ready for start up.'
@@ -360,6 +359,7 @@ if [ "$originalArgOne" = 'mongod' ]; then
 
 	unset "${!MONGO_INITDB_@}"
 fi
-rm -f "$jsonConfigFile" #"$tempConfigFile"
+
+rm -f "$jsonConfigFile" "$tempConfigFile"
 
 exec "$@"

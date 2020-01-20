@@ -93,7 +93,7 @@ RUN set -x \
   && curl -fSsL -o /etc/mongod.conf https://f5a25682f47d1b2eed7f70c062f95f03282feefa@raw.githubusercontent.com/nixroxursox/mongodb/master/etc/mongod.conf
 
 RUN mkdir -p /data/db /data/configdb \
-  && chown -R mongodb:mongodb /data/db /data/configdb
+  && chown -R mongodb:mongodb /data/db /data/configdb /var/run
 VOLUME /data/db /data/configdb
 
 COPY docker-mongo-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
@@ -101,5 +101,4 @@ ENTRYPOINT ["docker-entrypoint.sh"]
 
 EXPOSE 27017
 #CMD ["mongod", "--config", "/etc/mongod.conf"]
-CMD ["mongod", "-f", "/etc/mongod.conf"]
-#CMD ["mongod", "--unixSocketPrefix", "/var/run", "--filePermissions", "0664"]
+CMD ["mongod", "--config", "/etc/mongod.conf"]
