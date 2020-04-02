@@ -9,7 +9,7 @@ originalArgOne="$1"
 
 # allow the container to be started with `--user`
 # all mongo* commands should be dropped to the correct user
-if [[ "$originalArgOne" == mongo* ]] && [ "$(id -u)" = '0' ]; then
+if [[ "$originalArgOne" == mongo* ]] && ["$(id -u)" = '0' ]; then
 	if [ "$originalArgOne" = 'mongod' ]; then
 		find /data/configdb /data/db \! -user mongodb -exec chown mongodb '{}' +
 	fi
