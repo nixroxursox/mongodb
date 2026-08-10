@@ -1,0 +1,23 @@
+function getNextSequence(name) {
+   var ret = db.counters.findAndModify(
+          {
+            query: { masterId:  },
+            update: { $inc: { seq: 1 } },
+            new: true
+          }
+   );
+
+   return ret.seq;
+}
+
+function getNextSequence(name) {
+   var ret = db.counters.findAndModify(
+          {
+            query: { masterId: name },
+            update: { $inc: { seq: 1 } },
+            new: true
+          }
+   );
+
+   return ret.seq;
+}
